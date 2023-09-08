@@ -28,11 +28,9 @@ export class BlurComponent implements OnInit {
     let calcX = (percentX-50)/2.5 ;
     let calcY =  (percentY-50)/8;
 
-/*    setTimeout(()=>{
+    setTimeout(()=>{
       container!.style.transform=`translateX(${percentX/8}px) translateY(${percentY/4}px) translateZ(100px) scale(1) perspective(1000px) rotate3d(1, 0, 0, ${-calcY}deg) rotate3d(0, 1, 0, ${calcX}deg)`
-    }, 100)*/
-
-    container!.style.transform=`translateX(${percentX/8}px) translateY(${percentY/4}px) translateZ(100px) scale(1) perspective(1000px) rotate3d(1, 0, 0, ${-calcY}deg) rotate3d(0, 1, 0, ${calcX}deg)`
+    }, 120)
 
 
   }
@@ -49,12 +47,16 @@ export class BlurComponent implements OnInit {
       console.log(distanceFromCenterPercent);
 
       if (distanceFromCenterPercent<0){
-        blurValue = Math.max((distanceFromCenterPercent*(i+1))*(-0.05),1);
-        blurSpans[i].style.backdropFilter= `blur(${blurValue}px)`;
+        blurValue = Math.max((distanceFromCenterPercent*(i+1))*(-0.02),1);
+        setTimeout(()=>{
+          blurSpans[i].style.backdropFilter= `blur(${blurValue}px)`;
+          }, 120)
       }
       else{
-        blurValue = Math.max((distanceFromCenterPercent*(i+1))*0.05,1);
-        blurSpans[8-i-1].style.backdropFilter= `blur(${blurValue}px)`;
+        blurValue = Math.max((distanceFromCenterPercent*(i+1))*0.02,1);
+        setTimeout(()=>{
+          blurSpans[8-i-1].style.backdropFilter= `blur(${blurValue}px)`;
+          }, 120)
       }
 
     }
