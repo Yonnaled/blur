@@ -8,47 +8,57 @@ import {Component, OnInit} from '@angular/core';
 export class BlurComponent implements OnInit {
 
   ngOnInit(): void {
-    document.addEventListener('mousemove', this.onMouseUpdate, false)
-    document.addEventListener('mouseenter', this.onMouseUpdate, false)
+    document.addEventListener('mousemove', e => this.onMouseUpdate(this,e), false)
+    document.addEventListener('mouseenter', e => this.onMouseUpdate(this, e), false)
+    document.getElementById('bg-img')!.setAttribute('draggable', 'false');
   }
 
-  onMouseUpdate(e:any) {
-    let constrain = 30;
+  onMouseUpdate(blurComp:BlurComponent, e:any) {
     let x = e.pageX;
     let y = e.pageY;
+    blurComp.updateRotation(e,x,y);
+    blurComp.updateBlur(e,x);
+  }
+
+  updateRotation(e:any,x:number,y:number) {
+    let container = document.getElementById('container');
 
     let percentX = x / window.innerWidth * 100;
     let percentY = y / window.innerHeight * 100;
-    console.log(window.innerWidth + ' ' +percentX);
+    let calcX = (percentX-50)/2.5 ;
+    let calcY =  (percentY-50)/8;
 
-    let container = document.getElementById('container');
-    let box = container!.getBoundingClientRect();
+    setTimeout(()=>{
+      container!.style.transform=`translateX(${(percentX-50)*2}px) translateY(${(percentY-50)/2}px) translateZ(100px) scale(1) perspective(1000px) rotate3d(1, 0, 0, ${-calcY}deg) rotate3d(0, 1, 0, ${calcX}deg)`
+    }, 120)
 
-    let calcX = -(y - box.y - (box.height / 2)) / constrain;
-    let calcY = (x - box.x - (box.width / 2)) / constrain;
-
-
-    let t2 = `translateX(${percentX/8}px) translateY(${percentY/4}px)
-    rotateY(${calcY}deg) rotateX(${calcX}deg) translateZ(100px) scale(1) `
-
-    container!.style.transform = t2;
-
-
-    /////////////////////////////////////////////////////////////////////////////////////
-    const maxBlur = 43;
-
-    let blurSpans = document.getElementsByTagName('span');
-    for (let i=0; i<8; i++) {
-      let blurValue:number;
-      if (percentX>50){
-        blurValue = maxBlur / (i*400+100) * percentX;
-      }
-      else{
-        blurValue = maxBlur / (3300-i*400) * percentX;
-      }
-      blurSpans[i].style.backdropFilter= `blur(${blurValue}px)`;
-    }
 
   }
 
+  updateBlur(e: any,x:number) {
+    let percentX = x / window.innerWidth * 100;
+
+    let blurSpans = document.getElementsByTagName('span');
+
+    for (let i=0; i<8; i++) {
+
+      let blurValue:number;
+      let distanceFromCenterPercent = percentX-50;
+      console.log(distanceFromCenterPercent);
+
+      if (distanceFromCenterPercent<0){
+        blurValue = Math.max((distanceFromCenterPercent*(i+1))*(-0.02),1);
+        setTimeout(()=>{
+          blurSpans[i].style.backdropFilter= `blur(${blurValue}px)`;
+          }, 120)
+      }
+      else{
+        blurValue = Math.max((distanceFromCenterPercent*(i+1))*0.02,1);
+        setTimeout(()=>{
+          blurSpans[8-i-1].style.backdropFilter= `blur(${blurValue}px)`;
+          }, 120)
+      }
+
+    }
+  }
 }
