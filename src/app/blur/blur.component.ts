@@ -10,7 +10,7 @@ export class BlurComponent implements OnInit {
   ngOnInit(): void {
     document.addEventListener('mousemove', e => this.onMouseUpdate(this,e), false)
     document.addEventListener('mouseenter', e => this.onMouseUpdate(this, e), false)
-
+    document.getElementById('bg-img')!.setAttribute('draggable', 'false');
   }
 
   onMouseUpdate(blurComp:BlurComponent, e:any) {
