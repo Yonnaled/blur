@@ -29,7 +29,7 @@ export class BlurComponent implements OnInit {
     let calcY =  (percentY-50)/8;
 
     setTimeout(()=>{
-      container!.style.transform=`translateX(${percentX/8}px) translateY(${percentY/4}px) translateZ(100px) scale(1) perspective(1000px) rotate3d(1, 0, 0, ${-calcY}deg) rotate3d(0, 1, 0, ${calcX}deg)`
+      container!.style.transform=`translateX(${(percentX-50)*2}px) translateY(${(percentY-50)/2}px) translateZ(100px) scale(1) perspective(1000px) rotate3d(1, 0, 0, ${-calcY}deg) rotate3d(0, 1, 0, ${calcX}deg)`
     }, 120)
 
 
