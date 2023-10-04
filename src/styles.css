@@ -6,3 +6,10 @@ body, html {
   -ms-user-select: none; /* IE 10 and IE 11 */
   user-select: none; /* Standard syntax */
 }
+
+html, body {
+  overflow-x: hidden;
+}
+body {
+  position: relative;
+}

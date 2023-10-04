@@ -8,6 +8,7 @@ import {Component, OnInit} from '@angular/core';
 export class BlurComponent implements OnInit {
 
   ngOnInit(): void {
+    document.body.addEventListener('touchmove', function(e){ e.preventDefault(); });
     document.addEventListener('mousemove', e => this.onMouseUpdate(this,e), false)
     document.addEventListener('mouseenter', e => this.onMouseUpdate(this, e), false)
     document.getElementById('bg-img')!.setAttribute('draggable', 'false');
@@ -58,7 +59,6 @@ export class BlurComponent implements OnInit {
           blurSpans[8-i-1].style.backdropFilter= `blur(${blurValue}px)`;
           }, 120)
       }
-
     }
   }
 }
